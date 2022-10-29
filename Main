@@ -1,0 +1,93 @@
+
+if game.PlaceId == 9588998913 then
+	rconsolename("Disable anticheat")
+	rconsoleprint('@@YELLOW@@')
+	rconsoleprint("Waiting For Client AnitExploit, this should take no longer than 30 seconds")
+	spawn(function()
+		rconsoleprint("\nChecking game version")
+		local Version = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Updated
+		if tostring(Version) ~= "2022-10-29T02:43:03.2332703F" then
+			rconsoleprint('@@RED@@')
+			rconsoleprint("\nNEW GAME VERSION DETECTED, THERE COULD BE UPDATES THAT WILL GET YOU BANNED\n Script version: [2022-10-29T02:43:03.2332703Z] Game version ["..tostring(Version).."]")
+		else
+			rconsoleprint('@@YELLOW@@')
+			rconsoleprint("\nGame version and script version are the same")
+		end
+	end)
+	local knitModule = game:GetService("ReplicatedStorage"):WaitForChild("Knit")
+	repeat wait() until game.Players.LocalPlayer ~= nil
+	if not Krnl then wait(3) end
+	local Knit = require(knitModule)
+	local credInstance = game.ReplicatedStorage:FindFirstChild("Credentials")
+	local found = false
+	local newKnit = Knit.CreateController({
+		Name = "IntegrityController"
+	})
+
+	function newKnit.AliveCheck()
+		rconsoleprint("\nReturning value")
+		return game:GetService("Players").LocalPlayer.PlayerScripts.Game.Controllers.IntegrityController
+	end
+	local verify = function()
+		rconsoleprint('@@YELLOW@@')
+		rconsoleprint("\nVerifying")
+		wait(2)
+		for i,v in pairs(getconnections(game.Players.LocalPlayer.CharacterAdded)) do
+
+			if getfenv(v.Function).script ~= nil and getfenv(v.Function).script.Name == "IntegrityController" then
+
+				found = true
+
+			end
+
+		end
+		if found then
+			rconsoleprint('@@RED@@')
+			rconsoleprint("\nFailed to intercept AntiExploit I recommend rejoining")
+			game.Players.LocalPlayer:Kick("Failed to intercept AntiExploit, kicked to prevent any ban")
+		else
+			rconsoleprint('@@GREEN@@')
+			rconsoleprint("\nAntiExploit was successfully intercepted")
+		end
+	end
+
+
+
+	local FakeKnit = {
+		KnitInit = function()
+		end}
+
+
+
+
+
+	old = hookfunction(Knit.CreateController, function(createTable, ...)
+		if createTable.Name == "IntegrityController" then
+			rconsoleprint('@@YELLOW@@')
+			rconsoleprint("\nIntercepting AntiExploit")
+			spawn(verify)
+			return FakeKnit
+		end
+		return old(createTable, ...)
+	end)
+	local cred = credInstance ~= nil and require(credInstance) or nil
+	for i,v in pairs(getnilinstances()) do
+		if v:GetAttribute("Key") and v.Name ~= "Credentials" then
+			cred = require(v)
+		end
+	end
+	local done, Error = pcall(function()
+		cred.RegisterCompleted()
+		local antiServer = Knit.GetService("IntegrityService") 
+		if not antiServer then repeat wait(1) antiServer = Knit.GetService("IntegrityService") until antiServer ~= nil end
+		antiServer.WhatIsObamasFirstName:Fire(cred.GetKey(game:GetService("Players").LocalPlayer.PlayerScripts:WaitForChild("Game"):WaitForChild("Controllers"):WaitForChild("IntegrityController")))
+	end)
+
+	if done then
+            rconsoleprint('@@YELLOW@@')
+		rconsoleprint("\nSent remote checks")
+	else
+		rconsoleprint("@@RED@@")
+		rconsoleprint("\nFailed to send remote checks, rejoin ERROR: "..tostring(Error))
+	end
+end
