@@ -6,7 +6,7 @@ if game.PlaceId == 9588998913 then
 	spawn(function()
 		rconsoleprint("\nChecking game version")
 		local Version = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Updated
-		if tostring(Version) ~= "2022-10-29T02:43:03.2332703F" then
+		if tostring(Version) ~= "2022-10-29T02:43:03.2332703Z" then
 			rconsoleprint('@@RED@@')
 			rconsoleprint("\nNEW GAME VERSION DETECTED, THERE COULD BE UPDATES THAT WILL GET YOU BANNED\n Script version: [2022-10-29T02:43:03.2332703Z] Game version ["..tostring(Version).."]")
 		else
