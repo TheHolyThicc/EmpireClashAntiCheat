@@ -1,3 +1,6 @@
+--loadstring(game:HttpGet(('https://raw.githubusercontent.com/TheHolyThicc/EmpireClashAntiCheat/main/Main'),true))()
+
+
 
 if game.PlaceId == 9588998913 then
 	rconsolename("Disable anticheat")
@@ -6,7 +9,7 @@ if game.PlaceId == 9588998913 then
 	spawn(function()
 		rconsoleprint("\nChecking game version")
 		local Version = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Updated
-		if tostring(Version) ~= "2022-10-29T21:12:41.984274Z" then
+		if tostring(Version) ~= "2022-10-30T16:48:25.1511694Z" then
 			rconsoleprint('@@RED@@')
 			rconsoleprint("\nNEW GAME VERSION DETECTED, THERE COULD BE UPDATES THAT WILL GET YOU BANNED\n Script version: [2022-10-29T21:12:41.984274Z] Game version ["..tostring(Version).."]")
 		else
@@ -77,14 +80,18 @@ if game.PlaceId == 9588998913 then
 		end
 	end
 	local done, Error = pcall(function()
+		local Script = game:GetService("Players").LocalPlayer.PlayerScripts:WaitForChild("Game"):WaitForChild("Controllers"):WaitForChild("IntegrityController")
+		local functionName = Script.Helper:GetAttribute("Thing")
+		local module = require(Script:FindFirstChildOfClass("ModuleScript"))
+
 		cred.RegisterCompleted()
 		local antiServer = Knit.GetService("IntegrityService") 
 		if not antiServer then repeat wait(1) antiServer = Knit.GetService("IntegrityService") until antiServer ~= nil end
-		antiServer.WhatIsObamasFirstName:Fire(cred.GetKey(game:GetService("Players").LocalPlayer.PlayerScripts:WaitForChild("Game"):WaitForChild("Controllers"):WaitForChild("IntegrityController")))
+		antiServer.WhatIsObamasFirstName:Fire(cred[functionName](Script.Helper))
 	end)
 
 	if done then
-            rconsoleprint('@@YELLOW@@')
+		rconsoleprint('@@YELLOW@@')
 		rconsoleprint("\nSent remote checks")
 	else
 		rconsoleprint("@@RED@@")
