@@ -50,6 +50,7 @@ if game.PlaceId == 9588998913 then
 		ScriptContext.Error,
 		anticheat.OpenTheDoorGetOnTheFloorEverybodyWalkTheDinosaur["_remote"].OnClientEvent,
 		anticheat.VerifyNoclip["_remote"].OnClientEvent,
+		plr.Backpack.ChildAdded,
 		game.ChildAdded,
 		workspace:GetPropertyChangedSignal("Gravity")
 	}
