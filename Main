@@ -37,15 +37,6 @@ if game.PlaceId == 9588998913 then
 	local anticheat = Knit.GetService("IntegrityService")
 	local events = false
 	local WeDoNotLikeThese = {}
-	for i,v in pairs(anticheat) do
-		if v["_remote"] ~= nil then
-			events = true
-			WeDoNotLikeThese[v["_remote"].Name] = v["_remote"]
-		end
-	end
-	if events == false then
-		plr:Kick("Something went wrong when loading events")
-	end
 	local intentedConnections = {
 		plr.CharacterAdded,
 		ScriptContext.Error,
@@ -74,7 +65,15 @@ if game.PlaceId == 9588998913 then
 	rconsoleprint('@@YELLOW@@')
 	rconsoleprint("\nLoading events, wait for the done message")
 	plr.Character:WaitForChild("Humanoid")
-
+        for i,v in pairs(anticheat) do
+		if v["_remote"] ~= nil then
+			events = true
+			WeDoNotLikeThese[v["_remote"].Name] = v["_remote"]
+		end
+	end
+	if events == false then
+		plr:Kick("Something went wrong when loading events")
+	end
 
 	local old;
 	old = hookmetamethod(game, "__namecall", function(Self, ...)
