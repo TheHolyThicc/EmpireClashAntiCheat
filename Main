@@ -19,7 +19,7 @@ if game.PlaceId == 9588998913 then
 	end)
 	local knitModule = game:GetService("ReplicatedStorage"):WaitForChild("Knit")
 	repeat wait() until game.Players.LocalPlayer ~= nil
-	if not Krnl then wait(3) end
+	if not Krnl then wait() end
 	local Knit = require(knitModule)
 	local credInstance = game.ReplicatedStorage:FindFirstChild("Credentials")
 	local found = false
