@@ -84,6 +84,11 @@ if game.PlaceId == 9588998913 then
 				rconsoleprint("\nAnticheat tried firing ban event")
 				return nil
 			end
+			if args[3] and args[3] == "kick" then
+			args[3] = nil
+			args[4] = nil
+			return old(Self, unpack(args))
+			end
 		end
 		return old(Self, ...)
 	end)
