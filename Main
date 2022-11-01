@@ -1,7 +1,5 @@
 --loadstring(game:HttpGet(('https://raw.githubusercontent.com/TheHolyThicc/EmpireClashAntiCheat/main/Main'),true))()
 
-
-rconsoleprint("AH")
 if game.PlaceId == 9588998913 then
 	rconsolename("Disable anticheat")
 	rconsoleprint('@@YELLOW@@')
