@@ -86,19 +86,6 @@ if game.PlaceId == 9588998913 then
 		return old(Self, ...)
 	end)
  
-        local old2;
-	old2 = hookfunction(Instance.new("RemoteEvent").FireServer, function(Self, ...)
-		if not checkcaller() then
-			if args[3] and args[3] == "kick" then
-			args[3] = nil
-			args[4] = nil
-			rconsoleprint("@@RED@@")
-			rconsoleprint("\nKick player was called")
-			return old(Self, unpack(args))
-			end
-		end
-		return old2(Self, ...)
-	end)
 
 
 	rconsoleprint("@@GREEN@@")
