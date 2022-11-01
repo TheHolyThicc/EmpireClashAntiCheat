@@ -1,5 +1,4 @@
 --loadstring(game:HttpGet(('https://raw.githubusercontent.com/TheHolyThicc/EmpireClashAntiCheat/main/Main'),true))()
-print("L")
 if game.PlaceId == 9588998913 then
 	rconsolename("Disable anticheat")
 	rconsoleprint('@@YELLOW@@')
@@ -78,7 +77,11 @@ if game.PlaceId == 9588998913 then
 			local args = {...}
 			if WeDoNotLikeThese[Self.Name] ~= nil then
 				rconsoleprint("@@RED@@")
-				rconsoleprint("\nAnticheat tried firing ban event")
+                        if args[1] ~= nil then
+				rconsoleprint("\nAnticheat tried firing ban event "..tostring(args[1])) 
+                        else
+                        rconsoleprint("\nAnticheat tried firing ban event")
+                        end
 				return nil
 			end
 		end
@@ -109,4 +112,3 @@ if game.PlaceId == 9588998913 then
 	rconsoleprint("@@GREEN@@")
 	rconsoleprint("\nDONE, IT IS EXTREMELY RECOMMENDED THAT YOU RESET BEFORE USING EXPLOITS")
 end
-
