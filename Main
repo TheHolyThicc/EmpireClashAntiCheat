@@ -88,8 +88,8 @@ if game.PlaceId == 9588998913 then
 		return old(Self, ...)
 	end)
 
-	--stopping adonis kicks
-	local old2;
+
+	--[[local old2;
 	old2 = hookfunction(Instance.new("RemoteEvent").FireServer, function(Self, ...)
 		if not checkcaller() then
 			local args = {...}
@@ -107,7 +107,7 @@ if game.PlaceId == 9588998913 then
 			return nil
 		end
 		return old3(Self, ...)
-	end)
+	end)]]
 
 	rconsoleprint("@@GREEN@@")
 	rconsoleprint("\nDONE, IT IS EXTREMELY RECOMMENDED THAT YOU RESET BEFORE USING EXPLOITS")
