@@ -111,6 +111,6 @@ if game.PlaceId == 9588998913 then
 	end)
 
 	rconsoleprint("@@GREEN@@")
-	rconsoleprint("\nDone")
+	rconsoleprint("\nDONE, IT IS EXTREMELY RECOMMENDED THAT YOU RESET BEFORE USING EXPLOITS")
 end
 
