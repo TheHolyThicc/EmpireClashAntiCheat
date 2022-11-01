@@ -1,5 +1,8 @@
 --loadstring(game:HttpGet(('https://raw.githubusercontent.com/TheHolyThicc/EmpireClashAntiCheat/main/Main'),true))()
 
+--loadstring(game:HttpGet(('https://raw.githubusercontent.com/TheHolyThicc/EmpireClashAntiCheat/main/Main'),true))()
+
+
 if game.PlaceId == 9588998913 then
 	rconsolename("Disable anticheat")
 	rconsoleprint('@@YELLOW@@')
@@ -85,8 +88,27 @@ if game.PlaceId == 9588998913 then
 		end
 		return old(Self, ...)
 	end)
- 
 
+	--stopping adonis kicks
+	local old2;
+	old2 = hookfunction(Instance.new("RemoteEvent").FireServer, function(Self, ...)
+		if not checkcaller() then
+			local args = {...}
+			if args[3] and args[3] == "kick" then
+				return nil
+			end
+		end
+		return old2(Self, ...)
+	end)
+
+
+	local old3;
+	old3 = hookfunction(game.Players.LocalPlayer.Kick, function(Self, ...)
+		if not checkcaller() then
+			return nil
+		end
+		return old3(Self, ...)
+	end)
 
 	rconsoleprint("@@GREEN@@")
 	rconsoleprint("\nDone")
