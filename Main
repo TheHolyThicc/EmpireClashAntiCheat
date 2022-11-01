@@ -9,9 +9,9 @@ if game.PlaceId == 9588998913 then
 	spawn(function()
 		rconsoleprint("\nChecking game version")
 		local Version = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Updated
-		if tostring(Version) ~= "2022-10-30T16:48:25.1511694Z" then
+		if tostring(Version) ~= "2022-10-31T22:28:50.1855274Z" then
 			rconsoleprint('@@RED@@')
-			rconsoleprint("\nNEW GAME VERSION DETECTED, THERE COULD BE UPDATES THAT WILL GET YOU BANNED\n Script version: [2022-10-29T21:12:41.984274Z] Game version ["..tostring(Version).."]")
+			rconsoleprint("\nNEW GAME VERSION DETECTED, THERE COULD BE UPDATES THAT WILL GET YOU BANNED\nScript version: [2022-10-29T21:12:41.984274Z] Game version ["..tostring(Version).."]")
 		else
 			rconsoleprint('@@YELLOW@@')
 			rconsoleprint("\nGame version and script version are the same")
@@ -19,82 +19,76 @@ if game.PlaceId == 9588998913 then
 	end)
 	local knitModule = game:GetService("ReplicatedStorage"):WaitForChild("Knit")
 	repeat wait() until game.Players.LocalPlayer ~= nil
-	if not Krnl then wait() end
-	local Knit = require(knitModule)
-	local credInstance = game.ReplicatedStorage:FindFirstChild("Credentials")
+	local plr = game.Players.LocalPlayer
+	rconsolename("Connection")
+	local ScriptContext = game:GetService("ScriptContext")
+
 	local found = false
-	local newKnit = Knit.CreateController({
-		Name = "IntegrityController"
-	})
-
-	function newKnit.AliveCheck()
-		rconsoleprint("\nReturning value")
-		return game:GetService("Players").LocalPlayer.PlayerScripts.Game.Controllers.IntegrityController
-	end
-	local verify = function()
-		rconsoleprint('@@YELLOW@@')
-		rconsoleprint("\nVerifying")
-		wait(2)
-		for i,v in pairs(getconnections(game.Players.LocalPlayer.CharacterAdded)) do
-
-			if getfenv(v.Function).script ~= nil and getfenv(v.Function).script.Name == "IntegrityController" then
-
+	repeat wait(2)
+		for index, connection in pairs(getconnections(plr.CharacterAdded)) do
+			if getfenv(connection.Function).script and getfenv(connection.Function).script.Name == "IntegrityController" then
 				found = true
-
 			end
-
 		end
-		if found then
-			rconsoleprint('@@RED@@')
-			rconsoleprint("\nFailed to intercept AntiExploit I recommend rejoining")
-			game.Players.LocalPlayer:Kick("Failed to intercept AntiExploit, kicked to prevent any ban")
-		else
-			rconsoleprint('@@GREEN@@')
-			rconsoleprint("\nAntiExploit was successfully intercepted")
+	until found == true
+
+	local Knit = require(knitModule)
+	local anticheat = Knit.GetService("IntegrityService")
+	local events = false
+	local WeDoNotLikeThese = {}
+	for i,v in pairs(anticheat) do
+		if v["_remote"] ~= nil then
+			events = true
+			WeDoNotLikeThese[v["_remote"].Name] = v["_remote"]
+		end
+	end
+	if events == false then
+		plr:Kick("Something went wrong when loading events")
+	end
+	local intentedConnections = {
+		plr.CharacterAdded,
+		ScriptContext.Error,
+		anticheat.OpenTheDoorGetOnTheFloorEverybodyWalkTheDinosaur["_remote"].OnClientEvent,
+		anticheat.VerifyNoclip["_remote"].OnClientEvent,
+		game.ChildAdded,
+		workspace:GetPropertyChangedSignal("Gravity")
+	}
+
+	rconsoleprint('@@YELLOW@@')
+	rconsoleprint("\nDisabling connections, make sure "..tostring(#intentedConnections).." connections get disbaled before trying anything")
+	for index, connection in pairs(intentedConnections) do
+		for i,v in pairs(getconnections(connection)) do
+			if getfenv(v.Function).script and (getfenv(v.Function).script.Name == "IntegrityController" or getfenv(v.Function).script.Name == "ClientRemoteSignal" and (index == 3 or index == 4)) then
+				v:Disable()
+				rconsoleprint("@@GREEN@@")
+				rconsoleprint("\nConnection "..tostring(index).." was disabled")
+			end
 		end
 	end
 
 
 
-	local FakeKnit = {
-		KnitInit = function()
-		end}
+
+	rconsoleprint('@@YELLOW@@')
+	rconsoleprint("\nLoading events, wait for the done message")
+	plr.Character:WaitForChild("Humanoid")
 
 
-
-
-
-	old = hookfunction(Knit.CreateController, function(createTable, ...)
-		if createTable.Name == "IntegrityController" then
-			rconsoleprint('@@YELLOW@@')
-			rconsoleprint("\nIntercepting AntiExploit")
-			spawn(verify)
-			return FakeKnit
+	local old;
+	old = hookmetamethod(game, "__namecall", function(Self, ...)
+		if not checkcaller() and getnamecallmethod() == "FireServer" then
+			local args = {...}
+			if WeDoNotLikeThese[Self.Name] ~= nil then
+				rconsoleprint("@@RED@@")
+				rconsoleprint("\nAnticheat tried firing ban event")
+				return nil
+			end
 		end
-		return old(createTable, ...)
+		return old(Self, ...)
 	end)
-	local cred = credInstance ~= nil and require(credInstance) or nil
-	for i,v in pairs(getnilinstances()) do
-		if v:GetAttribute("Key") and v.Name ~= "Credentials" then
-			cred = require(v)
-		end
-	end
-	local done, Error = pcall(function()
-		local Script = game:GetService("Players").LocalPlayer.PlayerScripts:WaitForChild("Game"):WaitForChild("Controllers"):WaitForChild("IntegrityController")
-		local functionName = Script.Helper:GetAttribute("Thing")
-		local module = require(Script:FindFirstChildOfClass("ModuleScript"))
 
-		cred.RegisterCompleted()
-		local antiServer = Knit.GetService("IntegrityService") 
-		if not antiServer then repeat wait(1) antiServer = Knit.GetService("IntegrityService") until antiServer ~= nil end
-		antiServer.WhatIsObamasFirstName:Fire(cred[functionName](Script.Helper))
-	end)
 
-	if done then
-		rconsoleprint('@@YELLOW@@')
-		rconsoleprint("\nSent remote checks")
-	else
-		rconsoleprint("@@RED@@")
-		rconsoleprint("\nFailed to send remote checks, rejoin ERROR: "..tostring(Error))
-	end
+	rconsoleprint("@@GREEN@@")
+	rconsoleprint("\nDone")
 end
+
