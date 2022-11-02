@@ -41,8 +41,8 @@ if game.PlaceId == 9588998913 then
 		workspace:GetPropertyChangedSignal("Gravity")
 	}
 	
-	function disableConnection(connection, index)
-		if getfenv(connection.Function).script and (getfenv(connection.Function).script.Name == "IntegrityController" or getfenv(connection.Function).script.Name == "ClientRemoteSignal" and (index == 3 or index == 4)) then
+	function disableConnection(connection, index, event)
+		if getfenv(connection.Function).script and (getfenv(connection.Function).script.Name == "IntegrityController" or getfenv(connection.Function).script.Name == "ClientRemoteSignal" and event then
 			connection:Disable()
 			rconsoleprint("@@GREEN@@")
 			rconsoleprint("\nConnection "..tostring(index).." was disabled")
@@ -61,13 +61,13 @@ if game.PlaceId == 9588998913 then
 
 
 	rconsoleprint('@@YELLOW@@')
-	rconsoleprint("\nLoading events, make sure at least"..tostring(2).." connections get disbaled before trying anything")
+	rconsoleprint("\nLoading events, make sure at least "..tostring(2).." connections get disbaled before trying anything")
 	plr.Character:WaitForChild("Humanoid")
 	for index,v in pairs(anticheat) do
 		if v["_remote"] ~= nil then
 			events = true
 			table.insert(WeDoNotLikeThese, v["_remote"])
-			for i,connection in pairs(getconnections(v["_remote"].OnClientEvent)) do disableConnection(connection, index)
+			for i,connection in pairs(getconnections(v["_remote"].OnClientEvent)) do disableConnection(connection, index, true) end
 		end
 	end
 	if events == false then
