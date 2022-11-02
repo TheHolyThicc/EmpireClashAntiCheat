@@ -1,8 +1,11 @@
 --loadstring(game:HttpGet(('https://raw.githubusercontent.com/TheHolyThicc/EmpireClashAntiCheat/main/Main'),true))()
+
 if game.PlaceId == 9588998913 then
+	
 	rconsolename("Disable anticheat")
 	rconsoleprint('@@YELLOW@@')
 	rconsoleprint("Waiting For Client AnitExploit, this should take no longer than 30 seconds")
+
 	spawn(function()
 		rconsoleprint("\nChecking game version")
 		local Version = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Updated
@@ -14,12 +17,15 @@ if game.PlaceId == 9588998913 then
 			rconsoleprint("\nGame version and script version are the same")
 		end
 	end)
+	
 	local knitModule = game:GetService("ReplicatedStorage"):WaitForChild("Knit")
+	
 	repeat wait() until game.Players.LocalPlayer ~= nil
+	
 	local plr = game.Players.LocalPlayer
-	rconsolename("Connection")
 	local ScriptContext = game:GetService("ScriptContext")
-
+	
+	
 	local found = false
 	repeat wait(2)
 		for index, connection in pairs(getconnections(plr.CharacterAdded)) do
@@ -33,6 +39,7 @@ if game.PlaceId == 9588998913 then
 	local anticheat = Knit.GetService("IntegrityService")
 	local events = false
 	local WeDoNotLikeThese = {}
+
 	local intentedConnections = {
 		plr.CharacterAdded,
 		ScriptContext.Error,
@@ -40,8 +47,8 @@ if game.PlaceId == 9588998913 then
 		game.ChildAdded,
 		workspace:GetPropertyChangedSignal("Gravity")
 	}
-	
-	function disableConnection(connection, index, event)
+
+	local function disableConnection(connection, index, event)
 		if getfenv(connection.Function).script and (getfenv(connection.Function).script.Name == "IntegrityController" or getfenv(connection.Function).script.Name == "ClientRemoteSignal" and event) then
 			connection:Disable()
 			rconsoleprint("@@GREEN@@")
@@ -51,9 +58,10 @@ if game.PlaceId == 9588998913 then
 
 	rconsoleprint('@@YELLOW@@')
 	rconsoleprint("\nDisabling connections, make sure at least "..tostring(#intentedConnections).." connections get disbaled before trying anything")
+	
 	for index, connection in pairs(intentedConnections) do
 		for i,v in pairs(getconnections(connection)) do
-           disableConnection(v, index)
+			disableConnection(v, index)
 		end
 	end
 
@@ -63,6 +71,8 @@ if game.PlaceId == 9588998913 then
 	rconsoleprint('@@YELLOW@@')
 	rconsoleprint("\nLoading events, make sure at least "..tostring(2).." connections get disbaled before trying anything")
 	plr.Character:WaitForChild("Humanoid")
+	
+	
 	for index,v in pairs(anticheat) do
 		if v["_remote"] ~= nil then
 			events = true
@@ -73,16 +83,19 @@ if game.PlaceId == 9588998913 then
 	if events == false then
 		plr:Kick("Something went wrong when loading events")
 	end
+	
+	
 
 	local old;
 	old = hookmetamethod(game, "__namecall", function(Self, ...)
 		if not checkcaller() and getnamecallmethod() == "FireServer" then
 			local args = {...}
 			if table.find(WeDoNotLikeThese, Self) ~= nil then
-				rconsoleprint("@@RED@@")
 				if args[1] ~= nil then
+					rconsoleprint("@@RED@@")
 					rconsoleprint("\nAnticheat tried firing ban event "..tostring(args[1])) 
 				else
+					rconsoleprint("@@RED@@")
 					rconsoleprint("\nAnticheat tried firing ban event")
 				end
 				return nil
