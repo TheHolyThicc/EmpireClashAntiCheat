@@ -61,6 +61,7 @@ if game.PlaceId == 9588998913 then
 	rconsoleprint('@@YELLOW@@')
 	rconsoleprint("\nLoading events, wait for the done message")
 	plr.Character:WaitForChild("Humanoid")
+        if not anticheat then repeat wait() anticheat = Knit.GetService("IntegrityService") until anticheat ~= nil end
 	for i,v in pairs(anticheat) do
 		if v["_remote"] ~= nil then
 			events = true
