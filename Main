@@ -50,7 +50,7 @@ if game.PlaceId == 9588998913 then
 	end
 
 	rconsoleprint('@@YELLOW@@')
-	rconsoleprint("\nDisabling connections, make sure at least"..tostring(#intentedConnections + 2).." connections get disbaled before trying anything")
+	rconsoleprint("\nDisabling connections, make sure at least"..tostring(#intentedConnections).." connections get disbaled before trying anything")
 	for index, connection in pairs(intentedConnections) do
 		for i,v in pairs(getconnections(connection)) do
            disableConnection(v, index)
@@ -61,13 +61,13 @@ if game.PlaceId == 9588998913 then
 
 
 	rconsoleprint('@@YELLOW@@')
-	rconsoleprint("\nLoading events, wait for the done message")
+	rconsoleprint("\nLoading events, make sure at least"..tostring(2).." connections get disbaled before trying anything")
 	plr.Character:WaitForChild("Humanoid")
-	for i,v in pairs(anticheat) do
+	for index,v in pairs(anticheat) do
 		if v["_remote"] ~= nil then
 			events = true
 			table.insert(WeDoNotLikeThese, v["_remote"])
-			disableConnection(v["_remote"].OnClientEvent)
+			for i,connection in pairs(getconnections(v["_remote"].OnClientEvent)) do disableConnection(connection, index)
 		end
 	end
 	if events == false then
