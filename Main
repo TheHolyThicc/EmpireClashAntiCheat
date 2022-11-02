@@ -50,7 +50,7 @@ if game.PlaceId == 9588998913 then
 	end
 
 	rconsoleprint('@@YELLOW@@')
-	rconsoleprint("\nDisabling connections, make sure at least"..tostring(#intentedConnections).." connections get disbaled before trying anything")
+	rconsoleprint("\nDisabling connections, make sure at least "..tostring(#intentedConnections).." connections get disbaled before trying anything")
 	for index, connection in pairs(intentedConnections) do
 		for i,v in pairs(getconnections(connection)) do
            disableConnection(v, index)
