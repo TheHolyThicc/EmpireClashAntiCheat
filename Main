@@ -36,22 +36,24 @@ if game.PlaceId == 9588998913 then
 	local intentedConnections = {
 		plr.CharacterAdded,
 		ScriptContext.Error,
-		anticheat.OpenTheDoorGetOnTheFloorEverybodyWalkTheDinosaur["_remote"].OnClientEvent,
-		anticheat.VerifyNoclip["_remote"].OnClientEvent,
 		plr.Backpack.ChildAdded,
 		game.ChildAdded,
 		workspace:GetPropertyChangedSignal("Gravity")
 	}
+	
+	function disableConnection(connection, index)
+		if getfenv(connection.Function).script and (getfenv(connection.Function).script.Name == "IntegrityController" or getfenv(connection.Function).script.Name == "ClientRemoteSignal" and (index == 3 or index == 4)) then
+			connection:Disable()
+			rconsoleprint("@@GREEN@@")
+			rconsoleprint("\nConnection "..tostring(index).." was disabled")
+		end
+	end
 
 	rconsoleprint('@@YELLOW@@')
-	rconsoleprint("\nDisabling connections, make sure "..tostring(#intentedConnections).." connections get disbaled before trying anything")
+	rconsoleprint("\nDisabling connections, make sure at least"..tostring(#intentedConnections + 2).." connections get disbaled before trying anything")
 	for index, connection in pairs(intentedConnections) do
 		for i,v in pairs(getconnections(connection)) do
-			if getfenv(v.Function).script and (getfenv(v.Function).script.Name == "IntegrityController" or getfenv(v.Function).script.Name == "ClientRemoteSignal" and (index == 3 or index == 4)) then
-				v:Disable()
-				rconsoleprint("@@GREEN@@")
-				rconsoleprint("\nConnection "..tostring(index).." was disabled")
-			end
+           disableConnection(v, index)
 		end
 	end
 
@@ -61,11 +63,11 @@ if game.PlaceId == 9588998913 then
 	rconsoleprint('@@YELLOW@@')
 	rconsoleprint("\nLoading events, wait for the done message")
 	plr.Character:WaitForChild("Humanoid")
-        if not anticheat then repeat wait() anticheat = Knit.GetService("IntegrityService") until anticheat ~= nil end
 	for i,v in pairs(anticheat) do
 		if v["_remote"] ~= nil then
 			events = true
 			table.insert(WeDoNotLikeThese, v["_remote"])
+			disableConnection(v["_remote"].OnClientEvent)
 		end
 	end
 	if events == false then
