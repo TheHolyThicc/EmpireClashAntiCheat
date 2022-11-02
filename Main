@@ -42,7 +42,7 @@ if game.PlaceId == 9588998913 then
 	}
 	
 	function disableConnection(connection, index, event)
-		if getfenv(connection.Function).script and (getfenv(connection.Function).script.Name == "IntegrityController" or getfenv(connection.Function).script.Name == "ClientRemoteSignal" and event then
+		if getfenv(connection.Function).script and (getfenv(connection.Function).script.Name == "IntegrityController" or getfenv(connection.Function).script.Name == "ClientRemoteSignal" and event) then
 			connection:Disable()
 			rconsoleprint("@@GREEN@@")
 			rconsoleprint("\nConnection "..tostring(index).." was disabled")
@@ -112,6 +112,6 @@ if game.PlaceId == 9588998913 then
 		return old3(Self, ...)
 	end)]]
 
-	rconsoleprint("@@GREEN@@")
+	rconsoleprint("@@CYAN@@")
 	rconsoleprint("\nDONE, IT IS EXTREMELY RECOMMENDED THAT YOU RESET BEFORE USING EXPLOITS")
 end
