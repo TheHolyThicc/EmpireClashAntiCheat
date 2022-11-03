@@ -27,13 +27,14 @@ if game.PlaceId == 9588998913 then
 	local found = false
 	local PlsDontUseThese = {}
 	
-	repeat wait(2)
+	repeat 
 		for index, connection in pairs(getconnections(game:GetService("ScriptContext").Error)) do
 			local intendedScript = getfenv(connection.Function).script
 			if intendedScript and intendedScript.Name ~= "GoogleAnalyticsHelper" then
 				table.insert(PlsDontUseThese, intendedScript)
 			end
 		end
+        wait(2)
 	until #PlsDontUseThese >= 2
 
 	local Knit = require(knitModule)
