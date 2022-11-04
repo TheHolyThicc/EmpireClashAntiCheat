@@ -91,7 +91,7 @@ if game.PlaceId == 9588998913 then
 	end
 
 
-	repeat wait(1) until game:GetService("CoreGui"):FindFirstChild("LoadingScreen") == nil and plr.PlayerGui:WaitForChild("LocalSaveDataPrompt").Frame.Visible == false
+	repeat wait(1) until game:GetService("CoreGui"):FindFirstChild("LoadingScreen") == nil and (plr.PlayerGui:FindFirstForChild("LocalSaveDataPrompt") == nil or plr.PlayerGui:FindFirstForChild("LocalSaveDataPrompt").Frame.Visible == false)
 	local old;
 	old = hookmetamethod(game, "__namecall", function(Self, ...)
 		if not checkcaller() and getnamecallmethod() == "FireServer" then
