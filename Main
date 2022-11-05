@@ -74,7 +74,6 @@ if game.PlaceId == 9588998913 then
 
 	rconsoleprint('@@YELLOW@@')
 	rconsoleprint("\nLoading events, make sure at least "..tostring(2).." connections get disbaled before trying anything")
-	plr.Character:WaitForChild("Humanoid")
 
 	local events = false
 	local WeDoNotLikeThese = {}
