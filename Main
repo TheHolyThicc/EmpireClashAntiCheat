@@ -9,7 +9,7 @@ if game.PlaceId == 9588998913 then
 	spawn(function()
 		rconsoleprint("\nChecking game version")
 		local Version = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Updated
-		if tostring(Version) ~= "2022-11-01T20:03:24.45Z" then
+		if tostring(Version) ~= "2022-11-14T22:18:18.2888602Z" then
 			rconsoleprint('@@RED@@')
 			rconsoleprint("\nNEW GAME VERSION DETECTED, THERE COULD BE UPDATES THAT WILL GET YOU BANNED\nScript version: [2022-10-29T21:12:41.984274Z] Game version ["..tostring(Version).."]")
 		else
@@ -90,7 +90,7 @@ if game.PlaceId == 9588998913 then
 
 
 	repeat wait(1) until game:GetService("CoreGui"):FindFirstChild("LoadingScreen") == nil and (plr.PlayerGui:FindFirstChild("LocalSaveDataPrompt") == nil or plr.PlayerGui:FindFirstChild("LocalSaveDataPrompt").Frame.Visible == false)
-	local NoNoArgs = {'fi', 'gv', 'si', 'hb', 'ws', 'vim}
+	local NoNoArgs = {'fi', 'gv', 'si', 'hb', 'ws', 'vim'}
 	local old;
 	old = hookmetamethod(game, "__namecall", function(Self, ...)
 		if not checkcaller() and getnamecallmethod() == "FireServer" then
@@ -133,3 +133,5 @@ if game.PlaceId == 9588998913 then
 	rconsoleprint("@@CYAN@@")
 	rconsoleprint("\nDONE, IT IS EXTREMELY RECOMMENDED THAT YOU RESET BEFORE USING EXPLOITS")
 end
+
+
