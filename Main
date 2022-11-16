@@ -90,11 +90,12 @@ if game.PlaceId == 9588998913 then
 
 
 	repeat wait(1) until game:GetService("CoreGui"):FindFirstChild("LoadingScreen") == nil and (plr.PlayerGui:FindFirstChild("LocalSaveDataPrompt") == nil or plr.PlayerGui:FindFirstChild("LocalSaveDataPrompt").Frame.Visible == false)
+	local NoNoArgs = {'fi', 'gv', 'si', 'hb', 'ws', 'vim}
 	local old;
 	old = hookmetamethod(game, "__namecall", function(Self, ...)
 		if not checkcaller() and getnamecallmethod() == "FireServer" then
 			local args = {...}
-			if table.find(WeDoNotLikeThese, Self) ~= nil then
+			if table.find(WeDoNotLikeThese, Self) ~= nil or args[1] ~= nil and table.find(NoNoArgs, args[1]) then
 				if args[1] ~= nil then
 					rconsoleprint("@@RED@@")
 					rconsoleprint("\nAnticheat tried firing ban event "..tostring(args[1])) 
